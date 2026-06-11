@@ -41,7 +41,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Fetch all recipes with their ingredients
+    // Fetch all recipes with their ingredients and dietary tags
     const { data: recipes, error: recipesError } = await supabase
       .from("recipes")
       .select(`
@@ -49,6 +49,9 @@ Deno.serve(async (req: Request) => {
         recipe_ingredients (
           ingredient_id, quantity, is_required,
           ingredients ( id, name, icon )
+        ),
+        recipe_dietary_tags (
+          dietary_tags ( id, name, slug, icon )
         )
       `);
 
@@ -94,6 +97,13 @@ Deno.serve(async (req: Request) => {
         };
       });
 
+      // Format dietary tags
+      const tagList = recipe.recipe_dietary_tags as Array<Record<string, unknown>> || [];
+      const dietaryTags = tagList.map((t: Record<string, unknown>) => {
+        const tag = t.dietary_tags as Record<string, unknown>;
+        return { id: tag.id, name: tag.name, slug: tag.slug, icon: tag.icon };
+      });
+
       return {
         id: recipe.id,
         name: recipe.name,
@@ -104,6 +114,7 @@ Deno.serve(async (req: Request) => {
         servings: recipe.servings,
         image_url: recipe.image_url,
         ingredients: allIngredients,
+        dietary_tags: dietaryTags,
         match_score: Math.round((matchScore + bonusScore) * 100),
         can_make: canMake,
         required_matched: requiredMatchCount,

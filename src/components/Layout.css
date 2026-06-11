@@ -1,0 +1,133 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Top bar */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.top-bar-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  letter-spacing: -0.02em;
+}
+
+.top-bar-user {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Content */
+.app-content {
+  flex: 1;
+}
+
+/* Bottom nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 64px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s;
+  position: relative;
+}
+
+.nav-item.active {
+  color: var(--primary-dark);
+}
+
+.nav-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.nav-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.nav-item.active .nav-icon svg {
+  stroke-width: 2.5;
+}
+
+/* Desktop sidebar */
+@media (min-width: 1024px) {
+  .app-shell {
+    flex-direction: row;
+  }
+
+  .top-bar {
+    display: none;
+  }
+
+  .bottom-nav {
+    position: sticky;
+    top: 0;
+    left: auto;
+    bottom: auto;
+    width: 80px;
+    min-width: 80px;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 24px;
+    gap: 8px;
+    border-top: none;
+    border-right: 1px solid var(--border);
+    box-shadow: none;
+  }
+
+  .nav-item {
+    padding: 10px 8px;
+    width: 68px;
+  }
+
+  .nav-label {
+    font-size: 0.62rem;
+    text-align: center;
+  }
+
+  .app-content {
+    flex: 1;
+    max-width: 100%;
+    overflow-y: auto;
+  }
+}

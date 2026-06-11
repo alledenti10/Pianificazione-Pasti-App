@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import type { Ingredient } from '../types';
+import type { DietaryTag } from '../types';
 
-export function useIngredients() {
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+export function useDietaryTags() {
+  const [tags, setTags] = useState<DietaryTag[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetch() {
       const { data, error } = await supabase
-        .from('ingredients')
+        .from('dietary_tags')
         .select('*')
-        .order('category')
         .order('name');
 
-      if (!error) setIngredients(data || []);
+      if (!error) setTags(data || []);
       setLoading(false);
     }
     fetch();
   }, []);
 
-  return { ingredients, loading };
+  return { tags, loading };
 }
