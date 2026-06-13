@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '../lib/router';
 import { useIngredients } from '../hooks/useIngredients';
 import { useMealSuggestions } from '../hooks/useMealSuggestions';
 import { useDietaryTags } from '../hooks/useDietaryTags';

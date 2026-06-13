@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useRouterParams, Link, useRouter } from '../lib/router';
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,8 +8,8 @@ import type { Recipe } from '../types';
 import './RecipeDetail.css';
 
 export default function RecipeDetail() {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const { id } = useRouterParams() as { id: string };
+  const { goBack } = useRouter();
   const { user } = useAuth();
   const { toggleFavorite, isFavorite } = useFavorites();
   const { addRecipeIngredients, activeList, createList, lists } = useShoppingList();
@@ -129,8 +129,7 @@ export default function RecipeDetail() {
         <div className="detail-hero" style={{ backgroundImage: `url(${recipe.image_url})` }}>
           <div className="detail-hero-overlay" />
           <div className="detail-hero-nav">
-            <button className="back-btn" onClick={() => navigate(-1)}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
+            <button className="back-btn" onClick={goBack}>              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </button>

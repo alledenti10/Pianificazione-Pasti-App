@@ -1,4 +1,3 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -7,23 +6,22 @@ import Favorites from './pages/Favorites';
 import ShoppingListPage from './pages/ShoppingList';
 import MealPlanPage from './pages/MealPlan';
 import AuthPage from './pages/Auth';
+import { Router } from './lib/router';
 import './App.css';
+
+const routes = [
+  { path: '/', element: <Layout><Home /></Layout> },
+  { path: '/recipe/:id', element: <Layout><RecipeDetail /></Layout> },
+  { path: '/favorites', element: <Layout><Favorites /></Layout> },
+  { path: '/shopping', element: <Layout><ShoppingListPage /></Layout> },
+  { path: '/plan', element: <Layout><MealPlanPage /></Layout> },
+  { path: '/auth', element: <Layout><AuthPage /></Layout> },
+];
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="recipe/:id" element={<RecipeDetail />} />
-            <Route path="favorites" element={<Favorites />} />
-            <Route path="shopping" element={<ShoppingListPage />} />
-            <Route path="plan" element={<MealPlanPage />} />
-            <Route path="auth" element={<AuthPage />} />
-          </Route>
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+    <AuthProvider>
+      <Router routes={routes} fallback={<Layout><Home /></Layout>} />
+    </AuthProvider>
   );
 }

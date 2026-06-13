@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useShoppingList } from '../hooks/useShoppingList';
-import { Link } from 'react-router-dom';
+import { Link } from '../lib/router';
 import './ShoppingList.css';
 
 export default function ShoppingListPage() {

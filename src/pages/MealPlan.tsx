@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext';
 import { useMealPlan } from '../hooks/useMealPlan';
-import { Link } from 'react-router-dom';
+import { Link } from '../lib/router';
 import './MealPlan.css';
 
 const DAYS = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];

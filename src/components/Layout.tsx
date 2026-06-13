@@ -1,5 +1,6 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { useRouter, Link } from '../lib/router';
 import { useAuth } from '../contexts/AuthContext';
+import type { ReactNode } from 'react';
 import './Layout.css';
 
 const NAV_ITEMS = [
@@ -50,35 +51,35 @@ const NAV_ITEMS = [
   },
 ];
 
-export default function Layout() {
+export default function Layout({ children }: { children: ReactNode }) {
   const { user } = useAuth();
+  const { path, navigate } = useRouter();
 
   return (
     <div className="app-shell">
-      {/* Top bar */}
       <header className="top-bar">
-        <span className="top-bar-title">Cosa Mangio?</span>
+        <span className="top-bar-title" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Cosa Mangio?</span>
         {user && <span className="top-bar-user">{user.email?.split('@')[0]}</span>}
       </header>
 
-      {/* Content */}
       <main className="app-content">
-        <Outlet />
+        {children}
       </main>
 
-      {/* Bottom nav */}
       <nav className="bottom-nav">
-        {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.to === '/'}
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          >
-            <span className="nav-icon">{item.icon}</span>
-            <span className="nav-label">{item.label}</span>
-          </NavLink>
-        ))}
+        {NAV_ITEMS.map((item) => {
+          const isActive = item.to === '/' ? path === '/' : path.startsWith(item.to);
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={`nav-item ${isActive ? 'active' : ''}`}
+            >
+              <span className="nav-icon">{item.icon}</span>
+              <span className="nav-label">{item.label}</span>
+            </Link>
+          );
+        })}
       </nav>
     </div>
   );
